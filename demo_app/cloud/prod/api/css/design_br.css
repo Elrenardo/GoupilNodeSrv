@@ -1,0 +1,166 @@
+body{
+	font-family: 'Roboto', sans-serif;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #292b2c;
+	margin: 0;
+	box-sizing: inherit;
+	background-color: #eee;
+}
+
+/*a{
+	color: #292b2c;
+}*/
+a:hover{
+	color:#B51917;
+}
+th{
+	cursor:pointer;
+}
+
+#api_loader{
+	position: absolute;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	background-color: #000;
+	z-index 999999;
+}
+
+#api_menu
+{
+	width:240px;
+	display: inline;
+
+	background-color: #000;
+	min-height: 100vh;
+	color: rgba(227,242,253,.64);
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12);
+
+	background: linear-gradient(135deg,#fff 0,#eee 100%);
+}
+#api_menu #info_user
+{
+	text-align:center;
+	padding-top:30px;
+	padding-bottom:30px;
+	margin-top:20px;
+}
+
+.menu_vertical{
+
+	list-style-type: none;
+	color: rgba(0,0,0,0.9);
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	padding-left: 0px;
+}
+.menu_vertical li{
+	padding-right: 1rem;
+	padding-left: 1rem;
+	
+	list-style-type: none;
+}
+.menu_vertical li a {
+	margin-bottom: 5px;
+	font-weight: 300;
+	font-size: .9rem;
+	height: 45px;
+	line-height: 45px;
+
+	padding-left: 20px;
+	display: block;
+	cursor: pointer;
+
+	transition: background-color 1s ease;
+	background-color:transparent;
+
+	border: 2px solid #fff;
+}
+.menu_vertical li a:hover
+{
+	-webkit-border-radius:2px;
+	-moz-border-radius:2px;
+	-ms-border-radius:2px;
+	-o-border-radius:2px;
+	border-radius:2px;
+
+	/*background-color:rgba(225,42,41,1);
+	color:#FFF;*/
+	border: 2px solid rgba(225,42,41,0.6);
+}
+
+.menu_vertical .fa{
+	font-size: 1.2rem;
+	margin-right: 13px;
+
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+
+#api_pageLoader
+{
+	position: relative;
+	display: inline;
+	width: calc(100% - 240px);
+}
+
+.fa{
+	margin-right: 13px;
+	margin-left: 13px;
+}
+
+
+.color_fond_primary{
+	background-color:rgba(225,42,41,1);
+	color:#FFF;
+}
+.color_fond_segond{
+	background-color: #f5f5f5;
+}
+
+
+.spacer_20
+{
+	margin-right:20px;
+}
+
+
+
+.click{
+	cursor: pointer;
+}
+.inline{
+	display: inline;
+}
+.arrow{
+	color:red;
+}
+.btn-block{
+	width:100%;
+	margin-bottom:5px;
+	text-align: center;
+}
+
+
+
+.float-left{
+	float:left;
+}
+.float-right{
+	float:right;
+}
+
+
+
+.member_cadre
+{
+	border: 1px dotted #000;
+	border-top:none;
+	padding:20px;
+	height: 100%;
+}
