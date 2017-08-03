@@ -93,7 +93,7 @@ module.exports = function( ctrl_name, ctrl_callback )
 			return moveFile( tmp_path, target_path );
 		}
 
-		/*Executer une foonction en différer sur le temps en millisigonde *1000*/
+		/*Executer une fonction en différer sur le temps en millisigonde *1000*/
 		buffer.addTimeOut = function( time, callback )
 		{
 			let tache = setTimeout( callback , time );

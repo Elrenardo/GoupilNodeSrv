@@ -410,6 +410,18 @@ function CtrlApp( liste_session )
 		return setTimeout( callback , time );
 	}
 
+	/*Exécuter un timeOut en millisegonde pour tout les membres *1000 */
+	this.addTimeOutMember = function( time, callback )
+	{
+		return setTimeout( function()
+		{
+			liste_session.forEach(function( name, member )
+			{
+				callback( member.data );
+			});
+		}, time );
+	}
+
 	/*Annuler un TimeOut */
 	this.stopTimeOut = function( tache )
 	{
