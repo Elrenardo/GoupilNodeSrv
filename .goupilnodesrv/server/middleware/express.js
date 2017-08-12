@@ -16,14 +16,9 @@ const bodyParser   = global.require('body-parser')
 const compression  = global.require('compression');
 const cookieParser = global.require('cookie-parser');
 const express      = global.require('express');
-const watch        = global.require('watch');
 const multer       = global.require('multer');
 const relativeURL  = global.service.get('relativeURL');
 const passport     = global.require('passport');
-const compact      = global.service.get('compact');
-const pathSepDirFile = global.service.get('pathSepDirFile');
-const mkdirp       = global.require('mkdirp');
-const rmdir        = global.service.get('rmdir');
 
 /* Port HTTTP*/
 const port = global.config.server_port;
@@ -31,28 +26,10 @@ const port = global.config.server_port;
 /* Dossier temporaire du fichier uploadé */
 const tmp_upload = global.config.tmp_uploads;
 /* Dossier cache cloud */
-const tmp_cloud = global.path_app+global.config.tmp+'cloud';
+const tmp_cloud = global.config.tmp_uploads;
 
 /* Limit max size file upload */
 const tmp_upload_size_max = global.config.tmp_upload_max_size;
-
-
-//nettoyage tmp upload
-try{
-	//reset uploads
-	rmdir( tmp_upload );
-	mkdirp( tmp_upload );
-
-	//reset cloud
-	rmdir( tmp_cloud );
-	
-}catch(err)
-{
-	global.debug('/!\\ NO TMP DIR OUTPUT !');
-	global.debug( err );
-	//arret serveur
-	process.exit();
-};
 
 
 //configuration du stockage de fichier temporaire
@@ -195,26 +172,6 @@ module.exports = function( params, next )
 	/*
 	===================================================================
 	=
-	=  Fonction de modification des clouds
-	=
-	===================================================================
-	*/
-	let file_callback = function( f, stat )
-	{
-		/*let url = relativeURL(global.dirname+global.config.path_cloud);
-		f = relativeURL(f);
-		let t = f.split( url );
-		console.log( t[1] );*/
-		params.session.sendAll('cloud:upd','reload');
-
-		//reset cloud
-		rmdir( tmp_cloud );
-	}
-
-
-	/*
-	===================================================================
-	=
 	=  Création des cloud dans express
 	=
 	===================================================================
@@ -232,70 +189,12 @@ module.exports = function( params, next )
 			cloudExpress( req, params.ctrl, id )
 			.then(function(rep)
 			{
-				//On vérifie que le cache est actif
-				/*if( global.config.cloud_cache )
-				{
-					//Verifier l'exstention
-					let ext = rep.split('.');
-					ext = ext[ ext.length-1 ];
-
-					//Si le fichier n'est pas un fichier texte
-					if( ext!='html' && ext!='css' && ext!='js' )
-					{
-						res.sendFile( rep );
-						return;
-					}
-
-					//Fichier CACHE
-					let p = pathSepDirFile( rep );
-					p.dir = p.dir.split( global.path_app.replace(/\\/g,'/') )[1];
-
-					let path = global.path_app+global.config.tmp+p.dir;
-					let file = path+'/'+p.file;
-
-					//verifier que le cache existe
-					fs.stat( file, function(err, stat)
-					{
-						//Si CACHE EXISTE 
-	    				if(err == null)
-	    				{
-	    					res.sendFile( file );
-	    					return;
-	    				}
-	    				//Création du cache
-						fs.readFile( rep , "utf8", function(err, data)
-						{
-
-							//création des répértoire path
-							mkdirp( path, function()
-							{
-								//création du fichier compressé
-								fs.writeFile( file, compact( data ),function(err){
-									//Envoi du fichier CACHE
-									res.sendFile( file );
-								});
-							});
-						});
-					});
-				}
-				else//Envoi du fichier dans le CLOUD*/
-					res.sendFile( rep );
+				res.sendFile( rep );
 			})
 			.catch(function(rep){
 				next();
 			});
 		});
-
-		//detection update file
-		if( global.config.update_auto_cloud )//si l'update auto est actife
-		if( value.getUpdate() )
-		watch.createMonitor( value.getPath(), function(monitor)
-		{
-			monitor.on("created", file_callback);
-			monitor.on("changed", file_callback);
-			monitor.on("removed", file_callback);
-		});
-
 	});
 
 

@@ -65,7 +65,15 @@ module.exports = function( App )
 	{
 		process.exit();
 	})
-	.addGrp('ADMIN')
+	.addGrp('SADMIN')
+	.noParams();
+
+	//Renvoi la config
+	App.newCtrl('config', function(params,end)
+	{
+		end( global.config );
+	})
+	.addGrp('SADMIN')
 	.noParams();
 
 

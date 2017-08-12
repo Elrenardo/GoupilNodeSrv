@@ -82,9 +82,11 @@ module.exports = function( App )
 	App.newCloud('/test','aaa')
 	.addGrp('ADMIN');
 
-
-		//new cloud test
+	//new cloud test
 	App.newCloud('/prod','prod');
+
+	//App storage
+	App.newStorage('/store','data');
 
 
 

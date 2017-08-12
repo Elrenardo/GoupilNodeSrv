@@ -13,6 +13,7 @@ const Container   = global.service.get('Container');
 const dirRec      = global.service.get('dirRec');
 const getNameFile = global.service.get('getNameFile');
 const relativeURL = global.service.get('relativeURL');
+const verifFile   = global.service.get('verifFile');
 const fs          = global.require('fs');
 const watch       = global.require('watch');
 const task_cron   = global.require('node-cron');
@@ -89,9 +90,31 @@ let execCloud = function( name, file, session )
 			if( file != undefined )
 				filename += '/'+file;
 
+			//chercher un fichier
+			verifFile( filename )
+			.then(function(file){
+				resolve( file );
+			})
+			//fichier existe pas alors on test le dossier !
+			.catch(function(err){
+				//verifier si c'est un dossier
+				verifFile( filename+'/index.html' )
+				.then(function(file){
+					//ok c'était un dossier
+					resolve( file );
+				})
+				//fichier existe pas alors on test le dossier !
+				.catch(function(err){
+					//élement introuvable !
+					reject(404);
+				});
+			});
+
+
 			//vérfier l'existence du dossier ou ficier
-			fs.exists(filename, function(exists)
+			/*fs.exists(filename, function(exists)
 			{
+				console.log( exists );
 				//si existe pas
 			    if(!exists)
 			    	return reject(404);
@@ -112,7 +135,7 @@ let execCloud = function( name, file, session )
 			    }
 			    //alors ces un fichier 
 			    resolve( filename );
-			});
+			});*/
 		}
 	});
 }
@@ -242,14 +265,28 @@ function CtrlApp( liste_session )
 	}
 
 
+	/* Nouveau Cloud */
 	this.newCloud = function( name, path )
 	{
-		path = global.config.path_cloud+path;
+		path = global.config.tmp_uploads+path;//Cache fichier !
 		path = relativeURL(path);
 
 		let buffer = new CloudMain( name, path );
 		cloud.add( name, buffer );
 		global.debug('Drive add: '+name+ ' => '+path );
+		return buffer;
+	}
+
+
+	/* Nouveau Storage */
+	this.newStorage = function( name, path )
+	{
+		path = global.config.path_storage+path;//Cache fichier !
+		path = relativeURL(path);
+
+		let buffer = new CloudMain( name, path );
+		cloud.add( name, buffer );
+		global.debug('Storage drive add: '+name+ ' => '+path );
 		return buffer;
 	}
 

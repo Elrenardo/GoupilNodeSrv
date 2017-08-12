@@ -23,14 +23,17 @@ module.exports = {
 	/* Mettre à jour automatiquement le cloud */
 	'update_auto_cloud':1,
 
-	/* Activer le cache du cloud */
-	'cloud_cache':1,
+	/* Activer le compactage du cloud */
+	'cloud_compact':1,
 
 	/* Dossier ou ce situe les fichiers de l'application*/
 	'path_app'  : 'ctrl',
 
 	/* Dossier ou ce situe les cloud */
 	'path_cloud'  : 'cloud',
+
+	/*Dossier Storage ou ce trouve les elements non mis en cache*/
+	'path_storage': 'storage',
 
 	/*Dossier d'emplacement des middleware serveur*/
 	'path_middleware': 'server/middleware',
@@ -40,9 +43,9 @@ module.exports = {
 		'service.js',
 		'session.js',
 		'ctrl.js',
+		'cache.js',
 		'express.js',
-		'socketio.js',
-		'end.js'
+		'socketio.js'
 	],
 
 	/* Dossier ou ce citue les fichiers service */
@@ -64,6 +67,9 @@ module.exports = {
 
 	/*Tempory file storage*/
 	'tmp_uploads' : 'tmp/uploads',
+
+	/*Tempory cloud storage*/
+	'tmp_uploads' : 'tmp/cloud',
 
 	/* Limit size fie */
 	'tmp_upload_max_size' : 10*1024*1024,

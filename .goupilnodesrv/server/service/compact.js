@@ -15,8 +15,8 @@ module.exports = function( input )
 
 	//enlever les tabulations
 	output = output.replace(/\t/g, '');
+
 	//On énléve les espaces
-	output = output.replace(/( )+/g, ' ');
 	output = output.replace(/(\n|\r|(\n\r))( )+/g, '\n\r');
 
 	//enlever HTML commentaire
@@ -24,25 +24,26 @@ module.exports = function( input )
 	
 	output = output.replace(/(\/\*)(.*?)(\*\/)/g,"");// REPLACE /* ... */
 
-	var test = false;
-	do{
-		output = output.replace(/(\n|\r|(\n\r))(\/\/)(.*?)(\n|\r|(\n\r))/g,""); //REPLACE : // ...
-		test = (output == output.replace(/(\n|\r|(\n\r))(\/\/)(.*?)(\n|\r|(\n\r))/g,""));
-	}while( test != true );
+	//Encode spéciale le https://
+	output = output = output.replace(/:\/\//g, '[||]');
 
-	output = findCutCom( output );
-	output = findCutCom( output );
-	output = findCutCom( output );
-	output = findCutCom( output );
+	//Enlever les //
+	output = output.replace(/(\/\/)(.*?)(\n|\r|(\n\r))/g, ""); //REPLACE : // ...
 
-	//output = output.replace(/(\/\/)(.*?)(\n|\r|(\n\r))/g,""); //REPLACE : // ...
+	//Decode spéciale le https://
+	output = output = output.replace(/\[\|\|\]/g, '://');
 
 	//enlever les retour ligne
-	//output = output.replace(/\n|\r|(\n\r)/g, ' ');
+	//output = output.replace(/(\n\r)/g, ' ');
+	output = output.replace(/(\n|\r|(\n\r))/g, ' ');
+
+	//Enlever les espaces en trop
+	output = output.replace(/ +/g, ' ');
 
 	return output;
 };
 
+/*
 let compte = 0;
 function findCutCom( output )
 {
@@ -65,4 +66,4 @@ function findCutCom( output )
 
 	return output.slice( 0, val )+output.slice( val+valend, output.length );
 
-}
+}*/

@@ -88,6 +88,7 @@ if( cluster.isWorker )
     global.config.sslcertificate = global.path_app+global.config.sslcertificate;
     global.config.sslchaine      = global.path_app+global.config.sslchaine;
     global.config.tmp_uploads    = global.path_app+global.config.tmp_uploads+'/';
+    global.config.path_storage   = global.path_app+global.config.path_storage+'/';
     for( var i in global.config.watchapp ){
         global.config.watchapp[i] = global.path_app+global.config.watchapp[i];
     }

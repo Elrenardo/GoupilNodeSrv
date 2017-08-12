@@ -10,7 +10,8 @@
 */
 
 //dépendence gestion fichier
-let fs = require('fs');
+const fs = require('fs');
+const relativeURL = require( global.dirname+'server/service/relativeURL');
 
 
 //fonction parcour de fichier récursif
@@ -34,10 +35,10 @@ function dirRec(dir, ext )
                 //verifier si ces bien un fichier JS
                 if( p != undefined )
                 if( p[ p.length-1 ] == ext)
-                    results.push(file);
+                    results.push( relativeURL(file) );
             }
             else
-        	   results.push(file);
+        	   results.push(  relativeURL(file) );
         }
     });
     return results;
