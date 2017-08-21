@@ -127,13 +127,13 @@ module.exports = function( App )
 
 
 	//tache cron toute les minutes
-	App.newCron('* * * * *',function()
+	App.newCron('* * * * * *',function()
 	{
 		App.debug('Tache Cron run !');
 	});
 
 	///Voir tout les membres logé toute les minutes
-	App.newCronMember('* * * * *',function(member)
+	App.newCronMember('* * * * * *',function(member)
 	{
 		console.log( member );
 	});
