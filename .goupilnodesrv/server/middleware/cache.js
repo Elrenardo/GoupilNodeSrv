@@ -83,7 +83,7 @@ module.exports = function( params, next )
 	=
 	===================================================================
 	*/
-	let file_callback = function( f, stat )
+	params.refresh_cloud = function()
 	{
 		//reset cloud + rebuild
 		buildCache(function()
@@ -96,7 +96,9 @@ module.exports = function( params, next )
 			//prévenir la modification du fichier
 			params.session.sendAll('cloud:upd','reload');
 		});
-	}
+	};
+	//global refresh
+	global.refresh_cloud = params.refresh_cloud;
 
 
 	/*
@@ -109,9 +111,9 @@ module.exports = function( params, next )
 	if( global.config.update_auto_cloud )//si l'update auto est actife
 	watch.createMonitor( global.config.path_cloud, function(monitor)
 	{
-		monitor.on("created", file_callback);
-		monitor.on("changed", file_callback);
-		monitor.on("removed", file_callback);
+		monitor.on("created", params.refresh_cloud );
+		monitor.on("changed", params.refresh_cloud );
+		monitor.on("removed", params.refresh_cloud );
 	});
 
 

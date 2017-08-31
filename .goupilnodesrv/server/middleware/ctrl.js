@@ -109,33 +109,6 @@ let execCloud = function( name, file, session )
 					reject(404);
 				});
 			});
-
-
-			//vérfier l'existence du dossier ou ficier
-			/*fs.exists(filename, function(exists)
-			{
-				console.log( exists );
-				//si existe pas
-			    if(!exists)
-			    	return reject(404);
-
-			    //si ces un dossier
-			    if (fs.statSync(filename).isDirectory())
-			    {
-			    	filename += 'index.html';
-			    	//verifier l'existence du dossier
-				    fs.exists(filename, function(exists)
-					{
-						if(!exists)
-					    	return reject(404);
-					    //ok
-						resolve( filename );
-					});
-					return;
-			    }
-			    //alors ces un fichier 
-			    resolve( filename );
-			});*/
 		}
 	});
 }
@@ -464,5 +437,4 @@ function CtrlApp( liste_session )
 	{
 		clearTimeout( tache );
 	}
-
 }

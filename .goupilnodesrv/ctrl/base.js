@@ -63,9 +63,18 @@ module.exports = function( App )
 	//Ctrl de reboot manuel
 	App.newCtrl('reboot', function(params,end)
 	{
-		process.exit();
+		this.reboot();
 	})
-	.addGrp('SADMIN')
+	//.addGrp('SADMIN')
+	.noParams();
+
+
+	//Ctrl de reboot cloud
+	App.newCtrl('rebootCloud', function(params,end)
+	{
+		this.refreshCloud();
+	})
+	//.addGrp('SADMIN')
 	.noParams();
 
 	//Renvoi la config

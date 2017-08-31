@@ -113,6 +113,18 @@ module.exports = function( ctrl_name, ctrl_callback )
 			cmd.get( str, callback);
 		}
 
+		/*refresh WebApp*/
+		buffer.refreshCloud = function()
+		{
+			global.refresh_cloud();
+		}
+
+		/*reboot server*/
+		buffer.reboot = function()
+		{
+			process.exit();
+		}
+
 		//execution de la fonction
 		buffer.fonc( params, end );
 	}
