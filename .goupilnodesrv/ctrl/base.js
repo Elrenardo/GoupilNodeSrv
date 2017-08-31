@@ -65,7 +65,7 @@ module.exports = function( App )
 	{
 		this.reboot();
 	})
-	//.addGrp('SADMIN')
+	.addGrp('SADMIN')
 	.noParams();
 
 
@@ -74,7 +74,7 @@ module.exports = function( App )
 	{
 		this.refreshCloud();
 	})
-	//.addGrp('SADMIN')
+	.addGrp('SADMIN')
 	.noParams();
 
 	//Renvoi la config
