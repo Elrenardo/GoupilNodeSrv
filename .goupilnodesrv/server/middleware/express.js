@@ -136,6 +136,9 @@ module.exports = function( params, next )
 			//request ctrl 
 			app.all( '/'+id, function( req, res )
 			{
+				//Authorisé les requettes AJAX vers le server
+				res.setHeader('Access-Control-Allow-Origin', '*');
+
 				//upload file
 				upfile(req, res,function(err)
 				{
@@ -186,6 +189,9 @@ module.exports = function( params, next )
 		//route
 		app.use( i, function(req,res,next)
 		{
+			//Authorisé les requettes AJAX vers le server
+			res.setHeader('Access-Control-Allow-Origin', '*');
+
 			cloudExpress( req, params.ctrl, id )
 			.then(function(rep)
 			{

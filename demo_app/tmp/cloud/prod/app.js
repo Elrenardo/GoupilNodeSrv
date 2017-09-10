@@ -1,0 +1,1 @@
+ CtrlSocket(function() { console.log('END load CtrlSocket'); test(); loadPage('exemple1'); setTimeout(function() { $('#api_loader').fadeOut("slow"); }, 500); }); function test() { window.ping().then(function(rep) { console.log( rep ); }); }
