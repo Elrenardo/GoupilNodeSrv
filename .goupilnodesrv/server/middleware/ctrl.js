@@ -241,7 +241,10 @@ function CtrlApp( liste_session )
 	/* Nouveau Cloud */
 	this.newCloud = function( name, path )
 	{
-		path = global.config.tmp_uploads+path;//Cache fichier !
+		path = global.config.path_cloud+path;//Cache cloud direct
+		if( global.config.cloud_cache == true )
+			path = global.config.tmp_uploads+path;//Cache tmp fichier !
+
 		path = relativeURL(path);
 
 		let buffer = new CloudMain( name, path );

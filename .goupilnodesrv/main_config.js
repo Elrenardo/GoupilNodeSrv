@@ -23,6 +23,9 @@ module.exports = {
 	/* Mettre à jour automatiquement le cloud */
 	'update_auto_cloud':1,
 
+	/* Activer le cache */
+	'cloud_cache':1,
+
 	/* Activer le compactage du cloud */
 	'cloud_compact':1,
 
