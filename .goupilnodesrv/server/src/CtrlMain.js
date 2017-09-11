@@ -8,20 +8,23 @@
 * Description : class de configuration d'un ctrl
 ===================================================================
 */
-const AuthMain  = global.service.get('AuthMain');
-const moveFile  = global.service.get('moveFile');
-const cmd       = global.require('node-cmd');
+const AuthMain   = global.service.get('AuthMain');
+const moveFile   = global.service.get('moveFile');
+const objCompare = global.service.get('objCompare');
+const cmd        = global.require('node-cmd');
 
 
 module.exports = function( ctrl_name, ctrl_callback )
 {
 	let grp       = new AuthMain();
 
-	let params_on = false;
-	let params    = {};
-	let para_obli = Array();
+	let params_on   = false;
+	let params      = {};
+	let para_obli   = Array();
+	let para_remove = Array();
 
 	let files     = Array();
+	let doublon   = undefined;
 
 	/* Ajouter une authorisation */
 	this.addGrp = function( name )
@@ -125,6 +128,27 @@ module.exports = function( ctrl_name, ctrl_callback )
 			process.exit();
 		}
 
+		//vérification des doublons
+		if( doublon != undefined )
+		{
+			if( objCompare( doublon, params) == true )
+			{
+				end('DUPLICATE REQ');
+				return;//Stop exécution
+			}
+			else
+				doublon = params;
+		}
+
+		//suppresion des paramettre remove
+		let elem = '';
+		for( var i=0; i < para_remove.length; i++ )
+		{
+			elem = para_remove[i];
+			params[ elem ] = null;
+			delete params[ elem ];
+		}
+
 		//execution de la fonction
 		buffer.fonc( params, end );
 	}
@@ -152,6 +176,16 @@ module.exports = function( ctrl_name, ctrl_callback )
 		return this;
 	}
 
+	/*envoyer un paramettre obligatoire mais qui sera supprimé avant l'éxécution */
+	this.addParamRemove = function( name, type, callback )
+	{
+		params_on = true;
+		para_obli.push( name );
+		para_remove.push( name );
+		params[ name ] = buildParam( name, type, true, callback );
+		return this;
+	}
+
 	/*aucun paramettres a passer au ctrl*/
 	this.noParams = function()
 	{
@@ -176,48 +210,55 @@ module.exports = function( ctrl_name, ctrl_callback )
 	/*fonction de verification de reception des variables */
 	this.verifParams = function( type_params, get_params )
 	{
-			//si le mode verif params est pas actif
-			if( params_on == false )
-				return 1;
-
-			let buffer = 0;
-			let p      = 0;
-
-			//verifier les paramettres obligatoire
-			for( var n=0; n<para_obli.length; n++ )
-			if( get_params[ para_obli[n] ] == undefined )
-				return 'Param lost: '+para_obli[n];
-
-			//traiter les paramettres
-			for( var i in get_params )
-			if( i != '_url')//SPECIAL
-			if( i != 'files')//SPECIAL FICHIER
-			{
-				//verifier l'existence du params
-				if( params[ i ] == undefined )
-					return 'Param not authorised:'+i;
-
-				var value = get_params[i];
-				var name  = params[i].type;
-				var para  = params[i].params;
-				var callb = params[i].callback;
-
-				//verifier le type
-				var resu = type_params[ name ]( value, para );
-
-				if( resu != 1 )
-					return 'Param: '+i+'['+name+'] => '+resu+': '+typeof(value);
-
-
-				//callback verif
-				if( callb != undefined )
-				{
-					resu = callb(p);
-					if( resu != 1 )
-						return resu;
-				}
-			}
+		//si le mode verif params est pas actif
+		if( params_on == false )
 			return 1;
+
+		let buffer = 0;
+		let p      = 0;
+
+		//verifier les paramettres obligatoire
+		for( var n=0; n<para_obli.length; n++ )
+		if( get_params[ para_obli[n] ] == undefined )
+			return 'Param lost: '+para_obli[n];
+
+		//traiter les paramettres
+		for( var i in get_params )
+		if( i != '_url')//SPECIAL
+		if( i != 'files')//SPECIAL FICHIER
+		{
+			//verifier l'existence du params
+			if( params[ i ] == undefined )
+				return 'Param not authorised:'+i;
+
+			var value = get_params[i];
+			var name  = params[i].type;
+			var para  = params[i].params;
+			var callb = params[i].callback;
+
+			//verifier le type
+			var resu = type_params[ name ]( value, para );
+
+			if( resu != 1 )
+				return 'Param: '+i+'['+name+'] => '+resu+': '+typeof(value);
+
+
+			//callback verif
+			if( callb != undefined )
+			{
+				resu = callb(p);
+				if( resu != 1 )
+					return resu;
+			}
+		}
+		return 1;
+	}
+
+
+	/*protection contre les doublons*/
+	this.noDuplicate = function()
+	{
+		doublon = {':ini_doublon:':'XxXxX'};//default contenu pour avoir un test toujours faut !
 	}
 };
 

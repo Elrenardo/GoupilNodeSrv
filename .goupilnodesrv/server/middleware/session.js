@@ -57,6 +57,9 @@ liste_session.autoSession = function( tab_cookie, callback )
 		//Time Répétition setTimeOut !
 		session.time = new Array();
 
+		//Gestion protection doublon CTRL
+		session.doublon = new Array();
+
 		//deconnexion de la session
 		session.logout = function()
 		{

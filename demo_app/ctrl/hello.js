@@ -40,6 +40,20 @@ module.exports = function( App )
 		end( params );
 	});
 
+	//ctrl test params 
+	App.newCtrl('test_params_duplicate', function( params, end){
+		console.log( params );
+		end( params );
+	})
+	.noDuplicate();
+
+	//ctrl test params 
+	App.newCtrl('test_params_remove', function( params, end){
+		console.log( params );
+		end( params );
+	})
+	.addParamRemove('token','string');
+
 
 
 
