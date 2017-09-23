@@ -256,7 +256,7 @@ module.exports = function( App )
 		if( typeof(value) == 'number' )
 			return 1;
 
-		return 0;
+		return 'bad typeof';
 	});
 
 
@@ -265,12 +265,10 @@ module.exports = function( App )
 	{
 		if( typeof(value) == 'number' )
 		{
-			if( value == true )
-				return 1;
-			if( value == false )
+			if( value == 0 || value==1 )
 				return 1;
 		}
-		return 0;
+		return 'bad typeof';
 	});
 
 

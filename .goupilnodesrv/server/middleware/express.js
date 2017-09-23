@@ -264,6 +264,7 @@ module.exports = function( params, next )
 */
 function ctrlExpress( req, ctrlApp, name_ctrl )
 {
+	let buffer = 0;
 	//créatin d'un paramettre global
 	let params   = Object.assign({}, req.body, req.query);//, {'_url':req.params[2]} );
 
@@ -279,10 +280,21 @@ function ctrlExpress( req, ctrlApp, name_ctrl )
 	for( var i in params )
 	if( params[i] != undefined )
 	if( params[i][0] != undefined )
-	if( params[i][0] != '0')
 	{
-		if( !isNaN(Number(params[i])) ){
-			params[i] = Number(params[i]);
+
+		//Si commence pas par un zero
+		if( params[i][0] != '0')
+		{
+			//verfier si la chaine peux etre convertie en nombre
+			buffer = Number(params[i]);
+			if( !isNaN(buffer))
+				params[i] = buffer;
+		}
+		else
+		{
+			//special cas si envoi juste du zero
+			if( params[i] == '0' )
+				params[i] = 0;
 		}
 	}
 

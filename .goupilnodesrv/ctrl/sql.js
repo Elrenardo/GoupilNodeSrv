@@ -79,7 +79,7 @@ function Database( App )
 	=
 	===================================================================
 	*/
-	this.buildDateMysql = function( d )
+	this.SQL_date = function( d )
 	{
 		let date = {};
 		if( d == undefined )
@@ -90,14 +90,41 @@ function Database( App )
 		return date.toISOString().substring(0, 19).replace('T', ' ');
 	}
 
+
 	/*
 	===================================================================
 	=
-	=  Convertit un objet en requete SQL
+	=  Convertit un objet en requete SQL insert
 	=
 	===================================================================
 	*/
-	this.buildParamSQL = function( params )
+	this.SQL_insert = function( bdd_name, params )
+	{
+		let para = '';
+		let tab = [];
+		let val = '';
+		for( var i in params )
+		{
+			para += '`'+i+'`,';
+			val += '?,';
+			tab.push( params[i] );
+		}
+
+		para = para.substring(0, para.lastIndexOf(","));
+		val  = val.substring(0, val.lastIndexOf(","));
+
+		return { sql:"INSERT INTO `"+bdd_name+"` ("+para+") VALUES ("+val+")", values:tab };
+	}
+
+
+	/*
+	===================================================================
+	=
+	=  Convertit un objet en requete SQL update
+	=
+	===================================================================
+	*/
+	this.SQL_update = function( bdd_name, params )
 	{
 		let para = '';
 		let tab = [];
@@ -108,7 +135,7 @@ function Database( App )
 		}
 		para = para.substring(0, para.lastIndexOf(","));
 
-		return {"para":para, "tab":tab };
+		return { sql:"UPDATE `"+bdd_name+"` SET "+para+" ", values:tab };
 	}
 }
 
