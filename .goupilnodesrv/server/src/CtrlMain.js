@@ -259,6 +259,7 @@ module.exports = function( ctrl_name, ctrl_callback )
 	this.noDuplicate = function()
 	{
 		doublon = {':ini_doublon:':'XxXxX'};//default contenu pour avoir un test toujours faut !
+		return this;
 	}
 };
 
