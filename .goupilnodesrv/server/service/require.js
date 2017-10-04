@@ -15,5 +15,10 @@ global.require = function(filename)
 
 global.requireApp = function(filename)
 {
+	return require( global.path_app + filename );
+};
+
+global.requireAppCtrl = function(filename)
+{
 	return require( global.config.path_app + filename );
 };
