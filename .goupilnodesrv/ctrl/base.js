@@ -263,11 +263,18 @@ module.exports = function( App )
 	/*Type bool*/
 	App.addParamType('bool',function( value, params)
 	{
-		if( typeof(value) == 'number' )
-		{
-			if( value == 0 || value==1 )
-				return 1;
-		}
+		if( value == 1 )
+			return true;
+
+		if( value == true )
+			return true;
+
+		if( value == 0 )
+			return true;
+
+		if( value == false )
+			return true;
+		
 		return 'bad typeof';
 	});
 

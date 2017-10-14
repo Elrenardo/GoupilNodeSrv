@@ -55,7 +55,7 @@ module.exports = {
 	'path_service'   : 'server/service',
 
 	/* Durée d'une session inactive avant suppression*/
-	'session_time'   : 60*15,
+	'session_time'   : 60*30,
 
 	/* Nom du cookie d'identification des sessions */
 	'session_cookie_name' : 'GoupilEngine.uid',

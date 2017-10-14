@@ -281,6 +281,11 @@ function ctrlExpress( req, ctrlApp, name_ctrl )
 	if( params[i] != undefined )
 	if( params[i][0] != undefined )
 	{
+		//test boolean
+		if( params[i] == 'true' )
+			params[i] = true;
+		if( params[i] == 'false' )
+			params[i] = false;
 
 		//Si commence pas par un zero
 		if( params[i][0] != '0')
