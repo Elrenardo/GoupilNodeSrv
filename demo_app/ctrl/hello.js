@@ -122,7 +122,7 @@ module.exports = function( App )
 
 	function reload()
 	{
-		App.sendAllMsg('test','hello !');
+		App.sendAllMsg('test',{'msg':"Hello world !"});
 		App.sendMsg('ADMIN','test', 'Hello Admin !');
 		setTimeout(reload,3000);
 	}
@@ -147,13 +147,13 @@ module.exports = function( App )
 	});
 
 	///Voir tout les membres logé toute les minutes
-	App.newCronMember('* * * * * *',function(member)
+	/*App.newCronMember('* * * * * *',function(member)
 	{
 		console.log( member );
-	});
+	});*/
 
 	/*Cron Ctrl*/
-	App.newCtrl('test_time',function( params, end )
+	/*App.newCtrl('test_time',function( params, end )
 	{
 		end(true);
 		App.debug('/!\\ ENREGISTREMENT USER TACHE !');
@@ -161,6 +161,6 @@ module.exports = function( App )
 		{
 			App.debug('EXEC: test_time');
 		});
-	});
+	});*/
 
 }

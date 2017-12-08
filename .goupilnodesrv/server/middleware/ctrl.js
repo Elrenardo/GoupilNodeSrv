@@ -308,14 +308,21 @@ function CtrlApp( liste_session )
 
 
 	/*éxécution d'un controller */
+	/*this.execCtrl = function( ctrl_name, params, callback )
+	{
+		//TODO SESSION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		let c = ctrl.get( ctrl_name );
+		c.exec( undefined, params, callback );//<=---- ICI SESSION != UNDEFINED 
+	}*/
+
+	/*éxécution d'un controller SYS*/
 	this.ctrlMain = function( ctrl_name, params, session )
 	{
 		return execCtrl( ctrl_name, params, session );
 	}
 
 
-
-	/*execute un cloud*/
+	/*execute un cloud SYS*/
 	this.cloudMain = function( name, file, session )
 	{
 		return execCloud( name, file, session );
