@@ -94,6 +94,9 @@ module.exports = function( App )
 		if( typeof(value) != 'string' )
 			return 'bad typeof';
 
+		if( value.length == 0 )
+			return true;
+
 		//params
 		let min  = params[0];
 		let max  = params[1];
@@ -200,14 +203,22 @@ module.exports = function( App )
 	});
 
 
-	/*type date format SQL aaaa-mm-jj*/
+	/*type date format SQL xx/xx/xx ou xx-xx-xx*/
 	App.addParamType('date',function( value, params)
 	{
 		if( typeof(value) != 'string' )
 			return 'bad typeof';
 
-		let tab = value.split('-');
+		if( value.length == 0 )
+			return true;
 
+		//test format xx/xx/xx
+		let tab = value.split('/');
+		if( tab.length == 3 )
+			return true;
+
+		//test format xx-xx-xx
+		tab = value.split('-');
 		if( tab.length == 3 )
 			return true;
 		return 'bad date';
@@ -219,6 +230,9 @@ module.exports = function( App )
 	{
 		if( typeof(value) != 'string' )
 			return 'bad typeof';
+
+		if( value.length == 0 )
+			return true;
 
 		let buf = value.split(' ');
 		if( buf.length == 2 )
@@ -240,6 +254,9 @@ module.exports = function( App )
 	{
 		if( typeof(value) != 'string' )
 			return 'bad typeof';
+
+		if( value.length == 0 )
+			return true;
 
 		let tab = value.split(':');
 		if( tab.length == 3 )
