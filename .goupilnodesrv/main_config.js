@@ -11,9 +11,6 @@
 */
 
 module.exports = {
-	/*Répertoire app*/
-	'path_app' : 'C:/nodejs/goupilnodesrv2/app',
-
 	/*Port utilisé par le serveur*/
 	'server_port': 9000,
 
@@ -83,6 +80,7 @@ module.exports = {
 	/*Key SSL certificate */
 
 	'sslcertificate' :'ssl/certificate.pem',
+	
 	/*CA Key SSL */
 	'sslchaine':'ssl/chaine.pem'
 };

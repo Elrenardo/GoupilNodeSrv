@@ -180,7 +180,7 @@ module.exports = function( params, next )
 		process.exit();
 	}
 	
-	//si l'update auto est actife
+	//si l'update auto est actif
 	if( global.config.update_auto_app )
 	for( var i=0; i<global.config.watchapp.length; i++ )
 	{
@@ -235,6 +235,17 @@ function CtrlApp( liste_session )
 		global.debug('Ctrl add: '+name );
 
 		return buffer;
+	}
+
+
+	/* nouveaux controller sans duplication */
+	this.newCtrlUpd = function( name, callback )
+	{
+		let buffer = new CtrlMain( name, callback );
+		ctrl.add( name, buffer );
+		global.debug('Ctrl Upd add: '+name );
+
+		return buffer.noDuplicate();
 	}
 
 

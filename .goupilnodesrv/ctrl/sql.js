@@ -104,6 +104,8 @@ function Database( App )
 		let tab = [];
 		let val = '';
 		for( var i in params )
+		if( params[i] != null )
+		if( params[i] != undefined )
 		{
 			para += '`'+i+'`,';
 			val += '?,';
@@ -129,6 +131,8 @@ function Database( App )
 		let para = '';
 		let tab = [];
 		for( var i in params )
+		if( params[i] != null )
+		if( params[i] != undefined )
 		{
 			para += '`'+i+'`=?,';
 			tab.push( params[i] );

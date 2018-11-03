@@ -140,7 +140,7 @@ module.exports = function( ctrl_name, ctrl_callback )
 				doublon = params;
 		}
 
-		//suppresion des paramettre remove
+		//suppresion des paramettres remove
 		let elem = '';
 		for( var i=0; i < para_remove.length; i++ )
 		{

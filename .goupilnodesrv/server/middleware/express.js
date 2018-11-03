@@ -88,10 +88,6 @@ module.exports = function( params, next )
 	*/
 	app.use(function( req, res, next )
 	{
-		//Authorisé les requettes AJAX vers le server
-		res.setHeader('Access-Control-Allow-Origin', '*');
-		res.setHeader('Access-Control-Allow-Credentials', 'true');
-
 		//gestion automatique de la création de session
 		let session_id = params.session.autoSession( req.cookies, function( name, id )
 		{
@@ -220,6 +216,8 @@ module.exports = function( params, next )
 		    key : fs.readFileSync( global.config.sslprivatekey ),
 		    cert: fs.readFileSync( global.config.sslcertificate ),
 		    ca  : fs.readFileSync( global.config.sslchaine ),
+		    requestCert: false,
+    		rejectUnauthorized: false
 		};
 		server = https.createServer(options, app).listen(port, callback);
 	}
@@ -326,6 +324,11 @@ function cloudExpress( req, ctrlApp, id )
 /*Réposne HTTP standart */
 function sendRepExpress( rep, res )
 {
+	//Authorisé les requettes AJAX vers le server
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+	res.setHeader('Access-Control-Allow-Credentials', 'true');
+	res.setHeader("Access-Control-Allow-Headers", "Accept, X-Access-Token, X-Application-Name, X-Request-Sent-Time");
 	//pas de cache
 	res.setHeader('Cache-Control','private, no-cache, no-store, must-revalidate');
 	res.setHeader('Expires','-1');
