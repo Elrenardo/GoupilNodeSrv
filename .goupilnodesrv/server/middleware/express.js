@@ -145,14 +145,16 @@ module.exports = function( params, next )
 						endExpCtrl( req, res, id, function()
 						{
 							//vider le cache
+							if( req.files )
 							for( var i in req.files )
 							{
 								var elem = req.files[i];
 								for( var p=0; p<elem.length; p++ )
+								if( elem[p].path )
 								{
 									var path = elem[p].path;
 									if( fs.existsSync(path) )
-										fs.unlink( path );
+										fs.existsSync(path );
 								}
 							}
 						});
