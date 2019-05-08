@@ -351,8 +351,17 @@ function sendRepExpress( rep, res )
 
 		//configuration non defini ?
 		default:
-			res.setHeader('Content-Type', 'text/html');
-			res.send(rep);
-			break;
+			//Mode file
+			if( rep.indexOf(global.path_app)==0 )
+			{
+				res.sendFile( rep );
+			}
+			//Normal mode
+			else
+			{
+				res.setHeader('Content-Type', 'text/html');
+				res.send(rep);
+			}
+		break;
 	}
 }

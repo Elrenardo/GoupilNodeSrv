@@ -140,11 +140,19 @@ module.exports = function( App )
 	.addFileHttp('file');
 
 
+	//Retour de fichier dans Ctrl
+	App.newCtrl('getFile', function( params, end )
+	{
+		let file = global.path_app+'storage/data/gb.jpg';
+		end(file);
+	});
+
+
 	//tache cron toute les minutes
-	App.newCron('* * * * * *',function()
+	/*App.newCron('* * * * * *',function()
 	{
 		App.debug('Tache Cron run !');
-	});
+	});*/
 
 	///Voir tout les membres logé toute les minutes
 	/*App.newCronMember('* * * * * *',function(member)
