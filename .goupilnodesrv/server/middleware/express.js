@@ -191,9 +191,12 @@ module.exports = function( params, next )
 			cloudExpress( req, params.ctrl, id )
 			.then(function(rep)
 			{
+				//Ok envoi du fichier
 				res.sendFile( rep );
 			})
-			.catch(function(rep){
+			.catch(function(rep)
+			{
+				//test Route suivante
 				next();
 			});
 		});
@@ -275,7 +278,7 @@ function ctrlExpress( req, ctrlApp, name_ctrl )
 
 
 	//convertir string en number
-	for( var i in params )
+	/*for( var i in params )
 	if( params[i] != undefined )
 	if( params[i][0] != undefined )
 	{
@@ -299,7 +302,7 @@ function ctrlExpress( req, ctrlApp, name_ctrl )
 			if( params[i] == '0' )
 				params[i] = 0;
 		}
-	}
+	}*/
 
 	//main controller
 	return ctrlApp.ctrlMain( name_ctrl, params, req.session );
@@ -326,42 +329,60 @@ function cloudExpress( req, ctrlApp, id )
 /*Réposne HTTP standart */
 function sendRepExpress( rep, res )
 {
-	//Authorisé les requettes AJAX vers le server
-	res.setHeader('Access-Control-Allow-Origin', '*');
-	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-	res.setHeader('Access-Control-Allow-Credentials', 'true');
-	res.setHeader("Access-Control-Allow-Headers", "Accept, X-Access-Token, X-Application-Name, X-Request-Sent-Time");
-	//pas de cache
-	res.setHeader('Cache-Control','private, no-cache, no-store, must-revalidate');
-	res.setHeader('Expires','-1');
-	res.setHeader('Pragma','no-cache');
-
-	if(rep == undefined )
-		rep = 'EMPTY';
-
-	switch( typeof(rep) )
+	try
 	{
-		//sinon JSON encode 
-		case 'object':
-		case 'number':
-		case 'boolean':
-			res.setHeader('Content-Type', 'application/javascript');
-			res.send( JSON.stringify(rep) );
+		//pas de cache
+		res.setHeader('Cache-Control','private, no-cache, no-store, must-revalidate');
+		res.setHeader('Expires','-1');
+		res.setHeader('Pragma','no-cache');
+
+		//Si pas de réponse
+		if(rep == undefined )
+		{
+			res.sendStatus(200);
+			return;
+		}
+
+		//Type de compilation
+		switch( typeof(rep) )
+		{
+			//sinon JSON encode 
+			case 'object':
+			case 'number':
+			case 'boolean':
+				res.setHeader('Content-Type', 'application/json');
+				res.send( JSON.stringify(rep) );
 			break;
 
-		//configuration non defini ?
-		default:
-			//Mode file
-			if( rep.indexOf(global.path_app)==0 )
-			{
-				res.sendFile( rep );
-			}
-			//Normal mode
-			else
-			{
-				res.setHeader('Content-Type', 'text/html');
-				res.send(rep);
-			}
-		break;
+			//Si retourne du code JS
+			case 'function':
+				res.setHeader('Content-Type', 'application/javascript');
+				res.send( rep );
+			break;
+
+			//configuration non defini ?
+			default:
+				//Mode file
+				if(rep.indexOf(global.path_app)==0)
+				{
+					if(fs.existsSync(rep))
+						res.sendFile( rep );
+					else
+						res.sendStatus(404);
+				}
+				//Normal mode
+				else
+				{
+					res.setHeader('Content-Type', 'text/html');
+					res.send(rep);
+				}
+			break;
+		}
+	}
+	catch(err)
+	{
+		console.log('Error Express output !');
+		console.log( rep );
+		res.sendStatus(500);
 	}
 }
