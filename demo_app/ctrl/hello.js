@@ -31,7 +31,7 @@ module.exports = function( App )
 	App.newCtrl('hello/add', function( params, end){
 		console.log( params );
 		end('Welcome sur Hello Add !!');
-	}).addParam('toto','number');
+	}).addParam('toto',/*'number'*/ 'numting');
 
 
 	//ctrl test params 

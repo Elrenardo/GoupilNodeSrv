@@ -20,6 +20,22 @@ const cookie_name      = global.config.session_cookie_name;
 let liste_session = new Container();
 let _params = undefined; // buffer de params
 
+
+/*
+===================================================================
+=
+=  Cookie existe ?
+=
+===================================================================
+*/
+liste_session.issetTab = function( tab )
+{
+	if(tab[ this.cookie_name ] )
+		return true;
+	return false;
+}
+
+
 /*
 ===================================================================
 =
@@ -41,9 +57,11 @@ liste_session.autoSession = function( tab_cookie, callback )
 		//créer l'ID et verifier ca disponibilité
 		do
 		{
-			session_id = uuid.v4();
-			session.id = session_id;
+			session_id   = uuid.v4();
+			session.id   = session_id;
+			session.name = this.cookie_name;
 		}while( liste_session.isset(session_id) ); 
+
 		//Session data
 		session.data   = {};
 
@@ -63,12 +81,19 @@ liste_session.autoSession = function( tab_cookie, callback )
 		//deconnexion de la session
 		session.logout = function()
 		{
-			session.logout_callback('session.expired');
+			this.logout_callback('session.expired');
+
 			//suppresion session
 			liste_session.remove( session_id );
+
 			//Arret des setTimeOut
 			for( var i=0; i<session.time.length; i++ )
 				clearTimeout( session.time[i] );
+
+			//Vider contenu
+			this.grp     = new Array('PUBLIC');
+			this.data    = {};
+			this.doublon = new Array();
 		}
 
 		//fonction de callback sync

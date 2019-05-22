@@ -66,6 +66,21 @@ module.exports = function( ctrl_name, ctrl_callback )
 			//deconnexion
 			sess.logout();
 		};
+		//UIDV4 get session
+		buffer.getSessUIDv4 = function()
+		{
+			return sess.id;
+		};
+		//UIDV4 set session
+		buffer.setSessUIDv4 = function( uid )
+		{
+			sess.id = uid;
+		};
+		//Renvoi le nom de la session
+		buffer.getSessName = function()
+		{
+			return sess.name;
+		};
 		//execute un ctrl
 		buffer.execCtrl = function( ctrl_name, params )
 		{
@@ -108,6 +123,7 @@ module.exports = function( ctrl_name, ctrl_callback )
 		buffer.stopTimeOut = function( tache )
 		{
 			clearTimeout( tache );
+			sess.time.splice( list.indexOf(tache), 1 );
 		}
 
 		/*Exécuter une commande callback: function(err, data, stderr)*/

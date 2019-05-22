@@ -94,9 +94,6 @@ module.exports = function( App )
 		if( typeof(value) != 'string' )
 			return 'bad typeof';
 
-		if( value.length == 0 )
-			return true;
-
 		//params
 		let min  = params[0];
 		let max  = params[1];
@@ -161,9 +158,22 @@ module.exports = function( App )
 		if( value.length == 0 )
 			return true;
 
-		var reg = new RegExp("^0[1-9]([-. ]?[0-9]{2}){4}$");
-	    if(reg.test(value))
-	    	return true;
+		//Mode international
+		if( value[0] == '+')
+		{
+			return true;
+		}
+		//Mode Normal 0XXXXX
+		else
+		{
+			if( value.length != 10 )
+				return false;
+
+			var reg = new RegExp("^0[1-9]([-. ]?[0-9]{2}){4}$");
+		    if(reg.test(value))
+		    	return true;
+		    return false;
+		}
 	    return false;
 	});
 
@@ -203,22 +213,14 @@ module.exports = function( App )
 	});
 
 
-	/*type date format SQL xx/xx/xx ou xx-xx-xx*/
+	/*type date format SQL aaaa-mm-jj*/
 	App.addParamType('date',function( value, params)
 	{
 		if( typeof(value) != 'string' )
 			return 'bad typeof';
 
-		if( value.length == 0 )
-			return true;
+		let tab = value.split('-');
 
-		//test format xx/xx/xx
-		let tab = value.split('/');
-		if( tab.length == 3 )
-			return true;
-
-		//test format xx-xx-xx
-		tab = value.split('-');
 		if( tab.length == 3 )
 			return true;
 		return 'bad date';
@@ -230,9 +232,6 @@ module.exports = function( App )
 	{
 		if( typeof(value) != 'string' )
 			return 'bad typeof';
-
-		if( value.length == 0 )
-			return true;
 
 		let buf = value.split(' ');
 		if( buf.length == 2 )
@@ -255,9 +254,6 @@ module.exports = function( App )
 		if( typeof(value) != 'string' )
 			return 'bad typeof';
 
-		if( value.length == 0 )
-			return true;
-
 		let tab = value.split(':');
 		if( tab.length == 3 )
 			return true;
@@ -273,26 +269,21 @@ module.exports = function( App )
 		if( typeof(value) == 'number' )
 			return 1;
 
-		return 'bad typeof';
+		return 0;
 	});
 
 
 	/*Type bool*/
 	App.addParamType('bool',function( value, params)
 	{
-		if( value == 1 )
-			return true;
-
-		if( value == true )
-			return true;
-
-		if( value == 0 )
-			return true;
-
-		if( value == false )
-			return true;
-		
-		return 'bad typeof';
+		if( typeof(value) == 'number' )
+		{
+			if( value == true )
+				return 1;
+			if( value == false )
+				return 1;
+		}
+		return 0;
 	});
 
 
