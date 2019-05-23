@@ -47,14 +47,6 @@ module.exports = function( App )
 	})
 	.noParams();
 
-	//deconnexion
-	App.newCtrl('logout', function( params, end)
-	{
-		this.logout();
-		end(true);
-	})
-	.noParams();
-
 	//ctrl test params 
 	App.newCtrl('testParams', function( params, end){
 		end( params );
@@ -67,7 +59,6 @@ module.exports = function( App )
 	})
 	.addGrp('SADMIN')
 	.noParams();
-
 
 	//Ctrl de reboot cloud
 	App.newCtrl('rebootCloud', function(params,end)
@@ -84,6 +75,20 @@ module.exports = function( App )
 	})
 	.addGrp('SADMIN')
 	.noParams();
+
+
+	//deconnexion ( exemple )
+	/*App.newCtrl('logout', function( params, end)
+	{
+		while(this.grp.length > 0) {
+		    this.grp.pop();
+		}
+		this.grp.add('PUBLIC');
+
+		this.logout();
+		end(true);
+	})
+	.noParams();*/
 
 
 
