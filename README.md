@@ -13,6 +13,9 @@ set DEBUG=app:server,-not_this
 
 //Lancer le server PATH_APP : Path vers l'application que le server dois lancer
 node main.js app=PATH_APP
+
+//Si erreur de version liée a Bcrypt ( a effectuer dans .goupilnodesrv )
+npm rebuild bcrypt --update-binary
 ```
 
 <br/><br/><br/>
