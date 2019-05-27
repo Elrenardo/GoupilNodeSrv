@@ -12,6 +12,7 @@ const AuthMain   = global.service.get('AuthMain');
 const moveFile   = global.service.get('moveFile');
 const objCompare = global.service.get('objCompare');
 const cmd        = global.require('node-cmd');
+const uuid       = global.require('uuid');
 
 
 module.exports = function( ctrl_name, ctrl_callback )
@@ -228,10 +229,7 @@ module.exports = function( ctrl_name, ctrl_callback )
 	{
 		//si le mode verif params est pas actif
 		if( params_on == false )
-			return 1;
-
-		let buffer = 0;
-		let p      = 0;
+			return true;
 
 		//verifier les paramettres obligatoire
 		for( var n=0; n<para_obli.length; n++ )
@@ -247,34 +245,35 @@ module.exports = function( ctrl_name, ctrl_callback )
 			if( params[ i ] == undefined )
 				return 'Param not authorised:'+i;
 
-			var value = get_params[i];
-			var name  = params[i].type;
-			var para  = params[i].params;
-			var callb = params[i].callback;
+			var input    = new Object();
+			input.value    = get_params[i];
+			input.type     = params[i].type;//valeur entré
+			input.params   = params[i].params;//paramettre ","
+			input.callback = params[i].callback//fonction callback
 
 			//verifier le type
-			var resu = type_params[ name ]( value, para );
+			var resu = type_params[ input.type ]( input );
 
-			if( resu != 1 )
-				return 'Param: '+i+'['+name+'] => '+resu+': '+typeof(value);
+			if( resu != true )
+				return 'Param: '+i+'['+input.type+'] => '+resu+': '+typeof(input.value);
 
 
 			//callback verif
-			if( callb != undefined )
+			if( input.callback != undefined )
 			{
-				resu = callb(p);
-				if( resu != 1 )
+				resu = input.callback(input);
+				if( resu != true )
 					return resu;
 			}
 		}
-		return 1;
+		return true;
 	}
 
 
 	/*protection contre les doublons*/
 	this.noDuplicate = function()
 	{
-		doublon = {':ini_doublon:':'XxXxX'};//default contenu pour avoir un test toujours faut !
+		doublon = {':ini_doublon:': uuid.v4() };//default contenu pour avoir un test toujours faut !
 		return this;
 	}
 };

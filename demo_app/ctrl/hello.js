@@ -1,4 +1,9 @@
 
+//Ajout Bcrypt pour cryptage password
+const bcrypt = global.require('bcrypt');
+
+
+
 let compteur_var = 0;
 
 module.exports = function( App )
@@ -171,4 +176,13 @@ module.exports = function( App )
 		});
 	});*/
 
+
+	//Cryptage password
+	// https://www.npmjs.com/package/bcrypt
+	App.newCtrl('password', function( params, end)
+	{
+		let hash = bcrypt.hashSync( params.password, 10);
+		end( hash );
+
+	}).addParam('password','numting');
 }

@@ -26,6 +26,9 @@ module.exports = {
 	/* Activer le compactage du cloud */
 	'cloud_compact':1,
 
+	/* Droits ADMIN */
+	'grp_admin' : 'ROOT',
+
 	/* Dossier ou ce situe les fichiers de l'application*/
 	'path_app'  : 'ctrl',
 
