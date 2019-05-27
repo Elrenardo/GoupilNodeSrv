@@ -88,10 +88,6 @@ module.exports = function( params, next )
 	*/
 	app.use(function( req, res, next )
 	{
-		//Authorisé les requettes AJAX vers le server
-		res.setHeader('Access-Control-Allow-Origin', '*');
-		res.setHeader('Access-Control-Allow-Credentials', 'true');
-
 		//gestion automatique de la création de session
 		let session_id = params.session.autoSession( req.cookies, function( name, id )
 		{
@@ -149,14 +145,16 @@ module.exports = function( params, next )
 						endExpCtrl( req, res, id, function()
 						{
 							//vider le cache
+							if( req.files )
 							for( var i in req.files )
 							{
 								var elem = req.files[i];
 								for( var p=0; p<elem.length; p++ )
+								if( elem[p].path )
 								{
 									var path = elem[p].path;
 									if( fs.existsSync(path) )
-										fs.unlink( path );
+										fs.existsSync(path );
 								}
 							}
 						});
@@ -193,9 +191,12 @@ module.exports = function( params, next )
 			cloudExpress( req, params.ctrl, id )
 			.then(function(rep)
 			{
+				//Ok envoi du fichier
 				res.sendFile( rep );
 			})
-			.catch(function(rep){
+			.catch(function(rep)
+			{
+				//test Route suivante
 				next();
 			});
 		});
@@ -220,6 +221,8 @@ module.exports = function( params, next )
 		    key : fs.readFileSync( global.config.sslprivatekey ),
 		    cert: fs.readFileSync( global.config.sslcertificate ),
 		    ca  : fs.readFileSync( global.config.sslchaine ),
+		    requestCert: false,
+    		rejectUnauthorized: false
 		};
 		server = https.createServer(options, app).listen(port, callback);
 	}
@@ -275,7 +278,7 @@ function ctrlExpress( req, ctrlApp, name_ctrl )
 
 
 	//convertir string en number
-	for( var i in params )
+	/*for( var i in params )
 	if( params[i] != undefined )
 	if( params[i][0] != undefined )
 	{
@@ -299,7 +302,7 @@ function ctrlExpress( req, ctrlApp, name_ctrl )
 			if( params[i] == '0' )
 				params[i] = 0;
 		}
-	}
+	}*/
 
 	//main controller
 	return ctrlApp.ctrlMain( name_ctrl, params, req.session );
@@ -326,28 +329,60 @@ function cloudExpress( req, ctrlApp, id )
 /*Réposne HTTP standart */
 function sendRepExpress( rep, res )
 {
-	//pas de cache
-	res.setHeader('Cache-Control','private, no-cache, no-store, must-revalidate');
-	res.setHeader('Expires','-1');
-	res.setHeader('Pragma','no-cache');
-
-	if(rep == undefined )
-		rep = 'EMPTY';
-
-	switch( typeof(rep) )
+	try
 	{
-		//sinon JSON encode 
-		case 'object':
-		case 'number':
-		case 'boolean':
-			res.setHeader('Content-Type', 'application/javascript');
-			res.send( JSON.stringify(rep) );
+		//pas de cache
+		res.setHeader('Cache-Control','private, no-cache, no-store, must-revalidate');
+		res.setHeader('Expires','-1');
+		res.setHeader('Pragma','no-cache');
+
+		//Si pas de réponse
+		if(rep == undefined )
+		{
+			res.sendStatus(200);
+			return;
+		}
+
+		//Type de compilation
+		switch( typeof(rep) )
+		{
+			//sinon JSON encode 
+			case 'object':
+			case 'number':
+			case 'boolean':
+				res.setHeader('Content-Type', 'application/json');
+				res.send( JSON.stringify(rep) );
 			break;
 
-		//configuration non defini ?
-		default:
-			res.setHeader('Content-Type', 'text/html');
-			res.send(rep);
+			//Si retourne du code JS
+			case 'function':
+				res.setHeader('Content-Type', 'application/javascript');
+				res.send( rep );
 			break;
+
+			//configuration non defini ?
+			default:
+				//Mode file
+				if(rep.indexOf(global.path_app)==0)
+				{
+					if(fs.existsSync(rep))
+						res.sendFile( rep );
+					else
+						res.sendStatus(404);
+				}
+				//Normal mode
+				else
+				{
+					res.setHeader('Content-Type', 'text/html');
+					res.send(rep);
+				}
+			break;
+		}
+	}
+	catch(err)
+	{
+		console.log('Error Express output !');
+		console.log( rep );
+		res.sendStatus(500);
 	}
 }

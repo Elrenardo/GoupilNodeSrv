@@ -32,7 +32,17 @@ module.exports = function( ctrl_fw )
 
 			//end callback de contacte de réponse ( socket + http )
 			if( config.win_callback != undefined )
-				config.win_callback( rep );
+			{
+				try
+				{
+					config.win_callback( rep );
+				}
+				catch(error)
+				{
+					console.log('/!\\ ERROR CTRL EXEC:');
+					console.log( error );
+				}
+			}
 
 			//next middlewares
 			next();

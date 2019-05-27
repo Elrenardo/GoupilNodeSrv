@@ -11,9 +11,6 @@
 */
 
 module.exports = {
-	/*Répertoire app*/
-	'path_app' : 'C:/nodejs/goupilnodesrv2/app',
-
 	/*Port utilisé par le serveur*/
 	'server_port': 9000,
 
@@ -28,6 +25,9 @@ module.exports = {
 
 	/* Activer le compactage du cloud */
 	'cloud_compact':1,
+
+	/* Droits ADMIN */
+	'grp_admin' : 'ROOT',
 
 	/* Dossier ou ce situe les fichiers de l'application*/
 	'path_app'  : 'ctrl',
@@ -83,6 +83,7 @@ module.exports = {
 	/*Key SSL certificate */
 
 	'sslcertificate' :'ssl/certificate.pem',
+	
 	/*CA Key SSL */
 	'sslchaine':'ssl/chaine.pem'
 };

@@ -82,7 +82,7 @@ let execCloud = function( name, file, session )
 			let cloud_exec = cloud.get( name );
 			
 			//verification auth
-			if( !cloud_exec.verifGrp( session.grp) )
+			if( !cloud_exec.verifGrp(session.grp) )
 				return reject(403);
 
 			//ajout du fichier en paramettre
@@ -90,26 +90,22 @@ let execCloud = function( name, file, session )
 			if( file != undefined )
 				filename += '/'+file;
 
-			//chercher un fichier
+			//Si dossier ?
+			if( filename.substr(filename.length - 1) == '/' )
+				filename += 'index.html';
+
+			//verifier existence du path
 			verifFile( filename )
 			.then(function(file){
 				resolve( file );
 			})
 			//fichier existe pas alors on test le dossier !
 			.catch(function(err){
-				//verifier si c'est un dossier
-				verifFile( filename+'/index.html' )
-				.then(function(file){
-					//ok c'était un dossier
-					resolve( file );
-				})
-				//fichier existe pas alors on test le dossier !
-				.catch(function(err){
-					//élement introuvable !
-					reject(404);
-				});
+				reject(404);
 			});
 		}
+		else
+			reject(404);
 	});
 }
 
@@ -180,7 +176,7 @@ module.exports = function( params, next )
 		process.exit();
 	}
 	
-	//si l'update auto est actife
+	//si l'update auto est actif
 	if( global.config.update_auto_app )
 	for( var i=0; i<global.config.watchapp.length; i++ )
 	{
@@ -235,6 +231,17 @@ function CtrlApp( liste_session )
 		global.debug('Ctrl add: '+name );
 
 		return buffer;
+	}
+
+
+	/* nouveaux controller sans duplication */
+	this.newCtrlUpd = function( name, callback )
+	{
+		let buffer = new CtrlMain( name, callback );
+		ctrl.add( name, buffer );
+		global.debug('Ctrl Upd add: '+name );
+
+		return buffer.noDuplicate();
 	}
 
 

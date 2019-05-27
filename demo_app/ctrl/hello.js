@@ -1,4 +1,9 @@
 
+//Ajout Bcrypt pour cryptage password
+const bcrypt = global.require('bcrypt');
+
+
+
 let compteur_var = 0;
 
 module.exports = function( App )
@@ -31,7 +36,7 @@ module.exports = function( App )
 	App.newCtrl('hello/add', function( params, end){
 		console.log( params );
 		end('Welcome sur Hello Add !!');
-	}).addParam('toto','number');
+	}).addParam('toto',/*'number'*/ 'numting');
 
 
 	//ctrl test params 
@@ -140,11 +145,19 @@ module.exports = function( App )
 	.addFileHttp('file');
 
 
+	//Retour de fichier dans Ctrl
+	App.newCtrl('getFile', function( params, end )
+	{
+		let file = global.path_app+'storage/data/gb.jpg';
+		end(file);
+	});
+
+
 	//tache cron toute les minutes
-	App.newCron('* * * * * *',function()
+	/*App.newCron('* * * * * *',function()
 	{
 		App.debug('Tache Cron run !');
-	});
+	});*/
 
 	///Voir tout les membres logé toute les minutes
 	/*App.newCronMember('* * * * * *',function(member)
@@ -163,4 +176,13 @@ module.exports = function( App )
 		});
 	});*/
 
+
+	//Cryptage password
+	// https://www.npmjs.com/package/bcrypt
+	App.newCtrl('password', function( params, end)
+	{
+		let hash = bcrypt.hashSync( params.password, 10);
+		end( hash );
+
+	}).addParam('password','numting');
 }
