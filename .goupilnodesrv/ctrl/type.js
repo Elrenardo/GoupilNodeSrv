@@ -214,8 +214,8 @@ module.exports = function( App )
 
 
 
-	/*Type password*/
-	App.addParamType('password',function( input )
+	/*Type login*/
+	App.addParamType('login',function( input )
 	{
 		if( typeof(input.value) == 'string' )
 		{
@@ -228,14 +228,15 @@ module.exports = function( App )
 
 
 
-	/*Type login*/
-	App.addParamType('login',function( input )
+	/*Type password (Character + special character + number size 7 min, max 15 )*/
+	App.addParamType('password',function( input )
 	{
 		if( typeof(input.value) == 'string' )
 		{
-			if( input.value.length > 5 )
+			paswd= /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/;
+			if(input.value.match(paswd))
 				return true;
-			return 'too small( 5 min )';
+			return 'Error format password';
 		}
 		return false;
 	});
