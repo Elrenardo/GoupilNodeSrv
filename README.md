@@ -54,8 +54,51 @@ module.exports = function( App )
   //CONTROLLEUR ICI
 }
 ```
-La listes des extension NPM est disponible  dans le dossier server: __/node_modules__<br/>
-La listes des services est disponible  dans le dossier server: __/server/service__<br/>
+Listes des extensions NPM:
+```js
+//Génération de UID V1 ou V4
+const uuid = global.require('uuid');
+
+//Envoi de mail via Nodemailer
+const nodemailer = global.require('nodemailer');
+
+//SQL requette ( Ctrl spécial existe déja dans "ctrl/" )
+const mysql = global.require('mysql');
+
+//Cryptage ( exemple: mot de passe )
+const bcrypt = global.require('bcrypt');
+
+//Detection changement de fichier 
+const watch = global.require('watch');
+```
+
+Listes des services :
+```js
+//Contenaire de stockage
+const container = global.service.get('container');
+
+//Charge le service pour déplacer des fichiers
+const moveFile = global.service.get('moveFile');
+
+//Copier un fichier
+const copyFile = global.service.get('copyFile');
+
+//Lister contenu fichier en recursif
+const dirRec = global.service.get('dirRec');
+
+//Supprimer un dossier
+const rmdir = global.service.get('rmdir');
+
+//Comparer deux object
+const objCompare = global.service.get('objCompare');
+
+//Timestamp en segonde
+const timestamp = global.service.get('timestamp');
+
+//Verifier si le fichier existe
+const verifFile = global.service.get('verifFile');
+
+```
 
 <br/><br/><br/>
 Dans la zone des Controlleur vous pouvez créer appeler plusieurs type de fonction via l'objet __App__ :<br/>
@@ -281,7 +324,10 @@ App.newCtrl('NAME', function( params, end ) // params: listes des parammettre jo
   this.grp.remove('ADMIN');
 
   
-  end(true);//Réponse au client ( string, object, array )
+  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  ////Réponse au client ( string, object, array ) OBLIGATOIRE
+  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  end(true);
 });
 ```
 <br/><br/><br/>
@@ -316,9 +362,10 @@ CONTROLLEUR:
 * time
 * date
 * getAllCtrl
-* logout
-* testParams
-* reboot[ADMIN]
+* testParams[ROOT]
+* reboot[ROOT]
+* rebootCloud[ROOT]
+* config[ROOT]
 
 
 TYPE VARIABLES:
@@ -333,3 +380,6 @@ TYPE VARIABLES:
 * time
 * numting
 * bool
+* login ( 5 character min )
+* password ( 7/15 character, character special et numbre )
+
