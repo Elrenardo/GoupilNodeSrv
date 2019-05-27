@@ -29,6 +29,9 @@ module.exports = {
 	/* Droits ADMIN */
 	'grp_admin' : 'ROOT',
 
+	/* Droits visiteur */
+	'grp_public': 'PUBLIC',
+
 	/* Dossier ou ce situe les fichiers de l'application*/
 	'path_app'  : 'ctrl',
 
@@ -76,6 +79,9 @@ module.exports = {
 
 	/* Limit size fie */
 	'tmp_upload_max_size' : 10*1024*1024,
+
+	/* Name session expired event*/
+	'name_session_expired' : 'session.expired',
 
 	/*Key SSl private */
 

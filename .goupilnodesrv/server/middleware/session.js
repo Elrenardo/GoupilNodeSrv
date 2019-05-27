@@ -70,7 +70,7 @@ liste_session.autoSession = function( tab_cookie, callback )
 		session.update_out = time_session_out;
 
 		//Création de la gestion des groupes
-		session.grp = new Array('PUBLIC');
+		session.grp = new Array( global.config.grp_public );
 
 		//Time Répétition setTimeOut !
 		session.time = new Array();
@@ -81,7 +81,7 @@ liste_session.autoSession = function( tab_cookie, callback )
 		//deconnexion de la session
 		session.logout = function()
 		{
-			this.logout_callback('session.expired');
+			this.logout_callback( global.config.name_session_expired );
 
 			//suppresion session
 			liste_session.remove( session_id );
@@ -91,7 +91,7 @@ liste_session.autoSession = function( tab_cookie, callback )
 				clearTimeout( session.time[i] );
 
 			//Vider contenu
-			this.grp     = new Array('PUBLIC');
+			this.grp     = new Array( global.config.grp_public );
 			this.data    = {};
 			this.doublon = new Array();
 		}
