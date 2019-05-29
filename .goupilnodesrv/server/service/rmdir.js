@@ -8,7 +8,7 @@
 * Description : supprimer un fichier
 ===================================================================
 */
-var fs = global.require('fs');
+var fs = require('graceful-fs');//global.require('fs');
 
 
 function deleteFolderRecursive(path)

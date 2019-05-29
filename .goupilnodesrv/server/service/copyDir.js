@@ -8,7 +8,7 @@
 * Description : copie un répertoire récursivement tout en exécutant une fonction de modification sur chaque fichier
 ===================================================================
 */
-const fs             = require('fs');
+const fs             = require('graceful-fs');//require('fs');
 const mkdirp         = require('mkdirp');
 const dirRec         = require( global.dirname+'server/service/dirRec');
 const getExtFile     = require( global.dirname+'server/service/getExtFile');

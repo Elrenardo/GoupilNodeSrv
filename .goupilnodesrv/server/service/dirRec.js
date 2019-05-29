@@ -10,7 +10,7 @@
 */
 
 //dépendence gestion fichier
-const fs = require('fs');
+const fs = require('graceful-fs');//require('fs');
 const relativeURL = require( global.dirname+'server/service/relativeURL');
 
 

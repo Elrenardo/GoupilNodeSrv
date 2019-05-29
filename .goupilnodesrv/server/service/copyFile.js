@@ -10,7 +10,7 @@
 */
 
 //dépendence gestion fichier
-let fs = require('fs');
+let fs = require('graceful-fs');//require('fs');
 
 module.exports = function( filename_input, filename,output )
 {

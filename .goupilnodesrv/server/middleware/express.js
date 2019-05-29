@@ -8,7 +8,7 @@
 * Description : MiddleWares du framework expressJS pour la gestion HTTP
 ===================================================================
 */
-const fs           = global.require('fs');
+const fs           = global.require('graceful-fs');//global.require('fs');
 const http         = global.require('http');
 const https        = global.require('https');
 const helmet       = global.require('helmet');
