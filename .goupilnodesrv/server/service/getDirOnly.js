@@ -10,12 +10,12 @@
 */
 
 //dépendence gestion fichier
-let fs = require('fs');
+let fs = require('graceful-fs');//require('fs');
 
 function getDirOnly( dir )
 {
     var results = []
-    var list = fs.readdirSync(dir)
+    var list = fs.readdirSync(dir);
     list.forEach(function(file)
     {
         file = dir + '/' + file;

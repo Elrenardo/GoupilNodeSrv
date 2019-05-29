@@ -8,7 +8,7 @@
 * Description : deplace un fichier d'un répertoire a un autre
 ===================================================================
 */
-const fs = require('fs');
+const fs = require('graceful-fs');//require('fs');
 
 module.exports = function( tmp_path, target_path )
 {

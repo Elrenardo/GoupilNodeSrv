@@ -8,7 +8,7 @@
 * Description : execute un fichier JS avec des paramettres en global
 ===================================================================
 */
-let fs = require('fs');
+let fs = require('graceful-fs');//require('fs');
 
 //Fonction principal
 module.exports = function( file, app )

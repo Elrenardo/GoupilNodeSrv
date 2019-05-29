@@ -15,6 +15,7 @@
     "cookie-parser": "^1.4.4",
     "debug": "^2.6.9",
     "express": "^4.17.1",
+    "graceful-fs": "^4.1.15",
     "helmet": "^3.18.0",
     "install": "^0.12.2",
     "is-binary-path": "^2.1.0",
