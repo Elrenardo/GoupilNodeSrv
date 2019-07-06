@@ -363,19 +363,21 @@ function sendRepExpress( rep, res )
 			//configuration non defini ?
 			default:
 				//Mode file
-				if(rep.indexOf(global.path_app)==0)
+				if(rep[0] == global.path_app[0] )
+				if(rep[1] == global.path_app[1] )
 				{
 					if(fs.existsSync(rep))
+					{
 						res.sendFile( rep );
+						return;
+					}
 					else
 						res.sendStatus(404);
+					return;
 				}
 				//Normal mode
-				else
-				{
-					res.setHeader('Content-Type', 'text/html');
-					res.send(rep);
-				}
+				res.setHeader('Content-Type', 'text/html');
+				res.send(rep);
 			break;
 		}
 	}

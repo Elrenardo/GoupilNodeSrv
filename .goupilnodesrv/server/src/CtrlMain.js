@@ -251,6 +251,10 @@ module.exports = function( ctrl_name, ctrl_callback )
 			input.params   = params[i].params;//paramettre ","
 			input.callback = params[i].callback//fonction callback
 
+			//verifier que le type existe
+			if(type_params[ input.type ] == undefined)
+				return 'Type lost: '+input.type;
+
 			//verifier le type
 			var resu = type_params[ input.type ]( input );
 

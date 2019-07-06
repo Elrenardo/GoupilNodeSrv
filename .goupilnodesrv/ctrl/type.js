@@ -228,12 +228,12 @@ module.exports = function( App )
 
 
 
-	/*Type password (Character + special character + number size 7 min, max 15 )*/
+	/*Type password (Character + special character + number size 8 min max 20)*/
 	App.addParamType('password',function( input )
 	{
 		if( typeof(input.value) == 'string' )
 		{
-			paswd= /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/;
+			paswd= /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/;
 			if(input.value.match(paswd))
 				return true;
 			return 'Error format password';
