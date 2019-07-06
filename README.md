@@ -15,6 +15,7 @@ set DEBUG=app:server,-not_this
 node main.js app=PATH_APP
 
 //Si erreur de version liée a Bcrypt ( a effectuer dans .goupilnodesrv )
+npm install node-pre-gyp --fallback-to-build
 npm rebuild bcrypt --update-binary
 ```
 
